@@ -1,0 +1,31 @@
+
+Call:
+lm(formula = dyn(dmt ~ lag(dmt, -1) + lag(dmt, -2) + lag(dmt, 
+    -3) + lag(dmt, -4) + lag(dmt, -5) + lag(dmt, -6) + lag(unt, 
+    -1) + lag(unt, -2) + lag(unt, -3) + FEDVt))
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-48796  -9517   4932  14090  25459 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)   
+(Intercept)   7.648e+06  2.193e+06   3.487  0.00190 **
+lag(dmt, -1)  6.308e-01  1.892e-01   3.334  0.00277 **
+lag(dmt, -2) -2.917e-02  2.230e-01  -0.131  0.89704   
+lag(dmt, -3) -6.169e-01  2.146e-01  -2.875  0.00833 **
+lag(dmt, -4)  3.957e-01  2.157e-01   1.834  0.07904 . 
+lag(dmt, -5) -2.284e-01  2.287e-01  -0.999  0.32794   
+lag(dmt, -6) -2.838e-01  1.988e-01  -1.428  0.16621   
+lag(unt, -1)  2.545e+07  6.820e+06   3.732  0.00103 **
+lag(unt, -2) -3.658e+07  1.126e+07  -3.249  0.00341 **
+lag(unt, -3)  1.882e+07  6.004e+06   3.135  0.00449 **
+FEDVt         2.669e+06  1.923e+06   1.388  0.17798   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 21600 on 24 degrees of freedom
+  (9 observations deleted due to missingness)
+Multiple R-squared:  0.8548,	Adjusted R-squared:  0.7943 
+F-statistic: 14.13 on 10 and 24 DF,  p-value: 9.017e-08
+

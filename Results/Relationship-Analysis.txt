@@ -1,0 +1,22 @@
+
+Call:
+lm(formula = datas$NSE200 ~ datas$GDP + datas$UNEMPLOYMENT.RATE + 
+    datas$M2, data = datas)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-810.3 -499.9 -102.2  473.4 1039.5 
+
+Coefficients:
+                          Estimate Std. Error t value Pr(>|t|)    
+(Intercept)             -1.462e+05  2.645e+04  -5.527 2.98e-06 ***
+datas$GDP                1.484e-02  6.859e-03   2.163   0.0372 *  
+datas$UNEMPLOYMENT.RATE  1.584e+04  2.958e+03   5.357 5.03e-06 ***
+datas$M2                -6.979e-03  1.019e-03  -6.851 5.16e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 616 on 36 degrees of freedom
+Multiple R-squared:  0.6493,	Adjusted R-squared:  0.6201 
+F-statistic: 22.22 on 3 and 36 DF,  p-value: 2.569e-08
+
