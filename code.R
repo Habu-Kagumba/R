@@ -2,7 +2,8 @@
 library(tempdisagg)
 library(psych)
 library(dyn)
-library(car)
+# library(car)
+# library(quantreg)
 library(RColorBrewer)
 
 ########################################################
@@ -166,16 +167,152 @@ dates<-rep(2002:2012, each=ny)
 final_data<-data.frame(dates,stocky,DMt,unan_m2,dmoney)
 col_headings <- c('Years','NSE20','Anticipated.M2','UnAnticipated.M2','Actual.M2')
 names(final_data) <- col_headings
-final_data
 
-spm(~NSE20+Anticipated.M2+UnAnticipated.M2+Actual.M2 | Years,
-      data=final_data,
-      diagonal=c("none"),
-      col=brewer.pal(12, "Paired"),
-      main="ScatterPlot Matrix for all Variables")
+
+
+tsNSE<-ts(final_data$NSE20, frequency=4, start=c(2002,1))
+tsActual<-ts(final_data$Actual.M2, frequency=4, start=c(2002,1))
+tsAnti<-ts(final_data$Anticipated.M2, frequency=4, start=c(2002,1))
+tsUn<-ts(final_data$UnAnticipated.M2, frequency=4, start=c(2002,1))
+
+frame<-data.frame(tsNSE,tsActual,tsAnti,tsUn)
+col_heading <- c('NSE20','Actual.M2', 'Anticipated.M2','UnAnticipated.M2')
+names(frame) <- col_heading
+write.csv(frame, 'Data/NSE+M2+AnticipatedM2+UnAnticipatedM2.csv', quote=FALSE)
+
+png(filename='Charts/NSEvsM2.png',
+    width=1024,
+    height=888)
+
+par(oma=c(2,2,2,2))
+par(mar=c(4,5,2,1))
+plot.ts(tsNSE,
+        col='red',
+        type='l',
+        main='Relationship between NSE20 and Money Supply',
+        xlab='',
+        ylab='',
+        lwd=2,
+        xaxt='n',
+        yaxt='n')
+# abline(lm(tsNSE ~ final_data$Years),
+#        col='red',
+#        lwd=1)
+lines(lowess(final_data$Years, tsNSE),
+      col='gray',
+      lwd=1)
+axis(side=2, col='red')
+axis(side=1, col='black')
+mtext(side=2, col='black',line=3, 'Value')
+mtext(side=1, col='black',line=3, 'Years')
+par(new=T)
+plot.ts(tsActual,
+        col='blue',
+        xlab='',
+        ylab='',
+        axes=F,
+        lwd=2)
+# abline(lm(tsActual ~ final_data$Years),
+#        col='blue',
+#        lwd=1)
+lines(lowess(final_data$Years, tsActual),
+      col='gray',
+      lwd=1)
+axis(side=4, col='blue')
+abline(v=final_data$Years, col='grey', lwd=0.5)
+legend('topleft', legend=c('NSE','Money Supply'), col=c('red','blue'),
+       cex=0.7, text.col='black', lty=c(1), lwd=c(2), pch=c(-1), merge=TRUE, bg='white')
+# par(new=T)
+dev.off()
+
+png(filename='Charts/NSEvsAnticipatedM2.png',
+    width=1024,
+    height=888)
+par(oma=c(2,2,2,2))
+par(mar=c(4,5,2,1))
+plot.ts(tsNSE,
+        col='red',
+        type='l',
+        main='Relationship between NSE20 and Anticipated Money Supply',
+        xlab='',
+        ylab='',
+        lwd=2,
+        xaxt='n',
+        yaxt='n')
+# abline(lm(tsNSE ~ final_data$Years),
+#        col='red',
+#        lwd=1)
+lines(lowess(final_data$Years, tsNSE),
+      col='gray',
+      lwd=1)
+axis(side=2, col='red')
+axis(side=1, col='black')
+mtext(side=2, col='black',line=3, 'Value')
+mtext(side=1, col='black',line=3, 'Years')
+par(new=T)
+plot.ts(tsAnti,
+        col='forestgreen',
+        xlab='',
+        ylab='',
+        axes=F,
+        lwd=2)
+# abline(lm(tsActual ~ final_data$Years),
+#        col='blue',
+#        lwd=1)
+lines(lowess(final_data$Years, tsAnti),
+      col='gray',
+      lwd=1)
+axis(side=4, col='forestgreen')
+abline(v=final_data$Years, col='grey', lwd=0.5)
+legend('topleft', legend=c('NSE','Anticipated Money Supply'), col=c('red','forestgreen'),
+       cex=0.7, text.col='black', lty=c(1), lwd=c(2), pch=c(-1), merge=TRUE, bg='white')
+dev.off()
+
+
+png(filename='Charts/NSEvsUn-AnticipatedM2.png',
+    width=1024,
+    height=888)
+par(oma=c(2,2,2,2))
+par(mar=c(4,5,2,1))
+plot.ts(tsNSE,
+        col='red',
+        type='l',
+        main='Relationship between NSE20 and Un-Anticipated Money Supply',
+        xlab='',
+        ylab='',
+        lwd=2,
+        xaxt='n',
+        yaxt='n')
+# abline(lm(tsNSE ~ final_data$Years),
+#        col='red',
+#        lwd=1)
+lines(lowess(final_data$Years, tsNSE),
+      col='gray',
+      lwd=1)
+axis(side=2, col='red')
+axis(side=1, col='black')
+mtext(side=2, col='black',line=3, 'Value')
+mtext(side=1, col='black',line=3, 'Years')
+par(new=T)
+plot.ts(tsUn,
+        col='purple',
+        xlab='',
+        ylab='',
+        axes=F,
+        lwd=2)
+# abline(lm(tsActual ~ final_data$Years),
+#        col='blue',
+#        lwd=1)
+lines(lowess(final_data$Years, tsUn),
+      col='gray',
+      lwd=1)
+axis(side=4, col='purple')
+abline(v=final_data$Years, col='grey', lwd=0.5)
+legend('topleft', legend=c('NSE','Un-Anticipated Money Supply'), col=c('red','purple'),
+       cex=0.7, text.col='black', lty=c(1), lwd=c(2), pch=c(-1), merge=TRUE, bg='white')
+dev.off()
 
 # Write to file
 sink('Results/Final-Analysis.txt')
 model_final
-# plot(final_model)
 sink()
